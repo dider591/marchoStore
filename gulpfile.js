@@ -8,6 +8,7 @@ const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const webpack = require('webpack-stream');
 const server = require('browser-sync').create();
+const imagemin = require('gulp-imagemin');
 
 const fileIncludeSettings = {
   prefix: '@@',
@@ -49,9 +50,12 @@ gulp.task('sass', () => {
 });
 
 // Images task
-gulp.task('images', () => {
-  return gulp.src('./src/img/**/*')
-    .pipe(gulp.dest('./dist/img/'));
+gulp.task('images', function () {
+  return gulp.src('src/img/**/*', {
+    encoding: false
+}) // Указываем путь к изображениям
+      .pipe(imagemin()) // Сжимаем изображения
+      .pipe(gulp.dest('dist/img/')); // Копируем в целевую папку
 });
 
 // Fonts task
